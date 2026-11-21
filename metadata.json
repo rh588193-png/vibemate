@@ -1,0 +1,6 @@
+{
+  "name": "VIBEMATE",
+  "description": "Create. Share. Connect. — Mobile-first global social media platform with home feed, reels, explore, create, notifications, user profiles, and Founder Admin Dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

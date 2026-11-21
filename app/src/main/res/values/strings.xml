@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">VIBEMATE</string>
+    <string name="tagline">Create. Share. Connect.</string>
+    <string name="founder_credit">Founded by Raja</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_reels">Reels</string>
+    <string name="nav_explore">Explore</string>
+    <string name="nav_create">Create</string>
+    <string name="nav_notifications">Alerts</string>
+    <string name="nav_profile">Profile</string>
+    <string name="sign_in_google">Continue with Google</string>
+    <string name="action_publish">Publish Vibe</string>
+    <string name="founder_console_title">Founder Console</string>
+</resources>

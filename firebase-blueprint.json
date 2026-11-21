@@ -1,0 +1,203 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Public creator profile for VIBEMATE users without PII.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID of the user." },
+        "handle": { "type": "string", "description": "Unique public handle (without @ or with @)." },
+        "displayName": { "type": "string", "description": "Public display name." },
+        "bio": { "type": "string", "description": "Short creator biography." },
+        "avatarPreset": { "type": "string", "description": "Bundled avatar style key or color." },
+        "followersCount": { "type": "integer", "description": "Total follower count." },
+        "followingCount": { "type": "integer", "description": "Total following count." },
+        "postsCount": { "type": "integer", "description": "Total published posts count." },
+        "verified": { "type": "boolean", "description": "Whether the creator is verified." },
+        "founderBadge": { "type": "boolean", "description": "Whether the user holds the Founder badge." },
+        "discoverable": { "type": "boolean", "description": "Whether the profile appears in Explore search." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": [
+        "userId",
+        "handle",
+        "displayName",
+        "followersCount",
+        "followingCount",
+        "postsCount",
+        "verified",
+        "founderBadge",
+        "discoverable",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AdminRole": {
+      "title": "AdminRole",
+      "description": "Server-verified administrator role assignment.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the administrator." },
+        "role": { "type": "string", "enum": ["founder", "moderator"], "description": "Assigned admin role." },
+        "grantedAt": { "type": "string", "format": "date-time", "description": "Server timestamp when role was granted." }
+      },
+      "required": ["userId", "role", "grantedAt"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "Photo, video, or vertical reel post on VIBEMATE.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Author Firebase UID." },
+        "authorHandle": { "type": "string", "description": "Author public handle." },
+        "authorName": { "type": "string", "description": "Author display name." },
+        "authorAvatarPreset": { "type": "string", "description": "Author avatar preset key." },
+        "authorVerified": { "type": "boolean", "description": "Whether author is verified." },
+        "postType": { "type": "string", "enum": ["post", "reel"], "description": "Feed post or vertical reel." },
+        "mediaType": { "type": "string", "enum": ["photo", "video"], "description": "Underlying media format." },
+        "mediaKey": { "type": "string", "description": "Bundled visual key or local media label." },
+        "caption": { "type": "string", "description": "Post caption text." },
+        "hashtags": { "type": "array", "description": "Up to 10 hashtags." },
+        "audioTitle": { "type": "string", "description": "Audio track title for reels." },
+        "visibility": { "type": "string", "enum": ["public", "archived", "removed"], "description": "Visibility state." },
+        "likesCount": { "type": "integer", "description": "Total likes." },
+        "commentsCount": { "type": "integer", "description": "Total comments." },
+        "sharesCount": { "type": "integer", "description": "Total shares." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": [
+        "userId",
+        "authorHandle",
+        "authorName",
+        "postType",
+        "mediaType",
+        "caption",
+        "visibility",
+        "likesCount",
+        "commentsCount",
+        "sharesCount",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "PostLike": {
+      "title": "PostLike",
+      "description": "User like record on a post.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Liking user UID." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp." }
+      },
+      "required": ["userId", "createdAt"]
+    },
+    "PostComment": {
+      "title": "PostComment",
+      "description": "Comment on a VIBEMATE post or reel.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Commenter UID." },
+        "authorHandle": { "type": "string", "description": "Commenter handle." },
+        "authorName": { "type": "string", "description": "Commenter display name." },
+        "postVisibility": { "type": "string", "enum": ["public"], "description": "Denormalized parent visibility." },
+        "text": { "type": "string", "description": "Comment body." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp." }
+      },
+      "required": ["userId", "authorHandle", "authorName", "postVisibility", "text", "createdAt"]
+    },
+    "Follow": {
+      "title": "Follow",
+      "description": "Follower relationship between two VIBEMATE creators.",
+      "type": "object",
+      "properties": {
+        "followerId": { "type": "string", "description": "UID of follower." },
+        "targetUserId": { "type": "string", "description": "UID being followed." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp." }
+      },
+      "required": ["followerId", "targetUserId", "createdAt"]
+    },
+    "Bookmark": {
+      "title": "Bookmark",
+      "description": "Saved post bookmark scoped to user.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner UID." },
+        "postId": { "type": "string", "description": "Bookmarked post ID." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp." }
+      },
+      "required": ["userId", "postId", "createdAt"]
+    },
+    "NotificationItem": {
+      "title": "NotificationItem",
+      "description": "User activity notification.",
+      "type": "object",
+      "properties": {
+        "targetUserId": { "type": "string", "description": "Recipient UID." },
+        "actorId": { "type": "string", "description": "Acting user UID." },
+        "actorHandle": { "type": "string", "description": "Acting user handle." },
+        "actorName": { "type": "string", "description": "Acting user display name." },
+        "type": { "type": "string", "enum": ["like", "comment", "follow", "system"], "description": "Notification type." },
+        "message": { "type": "string", "description": "Human-readable notification text." },
+        "postId": { "type": "string", "description": "Optional related post ID." },
+        "read": { "type": "boolean", "description": "Read flag." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp." }
+      },
+      "required": ["targetUserId", "actorId", "actorHandle", "actorName", "type", "message", "read", "createdAt", "updatedAt"]
+    },
+    "ModerationReport": {
+      "title": "ModerationReport",
+      "description": "Content moderation report reviewed in the Founder Admin Dashboard.",
+      "type": "object",
+      "properties": {
+        "reporterId": { "type": "string", "description": "UID of reporting user." },
+        "targetPostId": { "type": "string", "description": "Reported post ID." },
+        "reason": { "type": "string", "description": "Reason for report." },
+        "status": { "type": "string", "enum": ["open", "resolved", "dismissed"], "description": "Moderation status." },
+        "resolutionNote": { "type": "string", "description": "Founder/admin note." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp." }
+      },
+      "required": ["reporterId", "targetPostId", "reason", "status", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Public VIBEMATE creator profiles."
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminRole" },
+      "description": "Server-verified platform administrator roles."
+    },
+    "/posts/{postId}": {
+      "schema": { "$ref": "#/entities/Post" },
+      "description": "VIBEMATE feed posts and vertical reels."
+    },
+    "/posts/{postId}/likes/{likeUserId}": {
+      "schema": { "$ref": "#/entities/PostLike" },
+      "description": "Per-user likes for a post."
+    },
+    "/posts/{postId}/comments/{commentId}": {
+      "schema": { "$ref": "#/entities/PostComment" },
+      "description": "Comments on a post."
+    },
+    "/follows/{followId}": {
+      "schema": { "$ref": "#/entities/Follow" },
+      "description": "Follower edges."
+    },
+    "/users/{userId}/bookmarks/{postId}": {
+      "schema": { "$ref": "#/entities/Bookmark" },
+      "description": "Saved post bookmarks per user."
+    },
+    "/users/{userId}/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/NotificationItem" },
+      "description": "Per-user notifications."
+    },
+    "/moderation_reports/{reportId}": {
+      "schema": { "$ref": "#/entities/ModerationReport" },
+      "description": "Moderation queue for the Founder Admin Dashboard."
+    }
+  }
+}
